@@ -1,0 +1,54 @@
+{
+	"id": "0ac6b15e-c739-4b30-a65a-3fb75c9131f5",
+	"name": "Sisnet DAS",
+	"values": [
+		{
+			"key": "idSesion",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "url",
+			"value": "http://esbarint01.esbar.dasnet:8080",
+			"enabled": true
+		},
+		{
+			"key": "resource",
+			"value": "SisnetINT",
+			"enabled": true
+		},
+		{
+			"key": "user",
+			"value": "rdferreira",
+			"enabled": true
+		},
+		{
+			"key": "pass",
+			"value": "123456",
+			"enabled": true
+		},
+		{
+			"key": "numDoc",
+			"value": "43397684L",
+			"enabled": true
+		},
+		{
+			"key": "docType",
+			"value": "NIF",
+			"enabled": true
+		},
+		{
+			"key": "includeIdSession",
+			"value": "WSSISnetesbarint",
+			"enabled": true
+		},
+		{
+			"key": "email",
+			"value": "silviatost@gmail.com",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2020-07-09T12:01:57.287Z",
+	"_postman_exported_using": "Postman/7.27.1"
+}
