@@ -1,9 +1,14 @@
 pipeline {
     agent none 
     stages {
-        stage('Test'){
+        stage('AUTO_TEST_MdP'){
 			steps {
 				build job:'PoC_Sisnet'
+			}  
+        }
+		stage('AUTO_TEST_DAS'){
+			steps {
+				build job:'PoC_Sisnet_DAS'
 			}  
         }
     }
