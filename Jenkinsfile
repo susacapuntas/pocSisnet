@@ -1,11 +1,10 @@
 pipeline {
-    node { 
-		stages {
-			stage('Test'){
-				steps {
-					build job:'PoC_Sisnet'
-				}  
-			}
-		}
-	}
+    agent {  }
+    stages {
+        stage('Test'){
+			steps {
+				build job:'PoC_Sisnet'
+			}  
+        }
+    }
 }
