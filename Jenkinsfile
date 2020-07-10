@@ -4,7 +4,7 @@ pipeline {
 		stage('AUTO_TEST_DAS'){
 			steps {
 				build job:'PoC_Sisnet_DAS'
-			}  
+			}
         }
     }
 }
