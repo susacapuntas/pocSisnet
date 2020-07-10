@@ -6,10 +6,5 @@ pipeline {
 				build job:'PoC_Sisnet_DAS'
 			}  
         }
-        stage('AUTO_TEST_MdP'){
-			steps {
-				build job:'PoC_Sisnet'
-			}  
-        }
     }
 }
