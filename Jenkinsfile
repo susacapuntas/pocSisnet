@@ -4,12 +4,12 @@ pipeline {
 		choice(
 			name: 'selectjob',
 			choices: "PoC_Sisnet_MdP\nPoC_Sisnet_DAS",
-			description: 'interesting stuff' )
+			description: "Job build selection")
 	}
     stages {
-		stage('AUTO_TEST_${params.selectjob}'){
+		stage("AUTO_TEST_${params.selectjob}"){
 			steps {
-				build job:'${params.selectjob}'
+				build job:"${params.selectjob}"
 			}
         }
     }
