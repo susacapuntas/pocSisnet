@@ -15,6 +15,7 @@
 						"exec": [
 							"//Getting environment variables\r",
 							"var includeIdSession = pm.environment.get(\"includeIdSession\");\r",
+							"var okCommand = pm.environment.get(\"okCommand\");\r",
 							"\r",
 							"//Parse the xml response to obtain value from tag <IDSESION>\r",
 							"var jsonObject = xml2Json(responseBody);\r",
@@ -23,15 +24,17 @@
 							"jsonArray = jsonArray[1].split(\"</IDSESION>\");\r",
 							"postman.setEnvironmentVariable(\"idSesion\", jsonArray[0]);\r",
 							"\r",
+							"//Test response is status 200\r",
+							"pm.test(\"Command is correctly invoked\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
+							"});\r",
+							"\r",
 							"//Test response gives the IDSESION\r",
 							"pm.test(\"ID Session correctly obtained\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(includeIdSession);\r",
 							"});\r",
 							"\r",
-							"//Test response is status 200\r",
-							"pm.test(\"Command is correctly invoked\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(includeIdSession);\r",
-							"});"
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -54,7 +57,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n                <CODIGO>LOGIN</CODIGO>\r\n                <VERSION>1</VERSION>\r\n                <TIPODUSO>VOID</TIPODUSO>\r\n            </COMANDO>\r\n            <ENTRADA>\r\n                <USUARIO>{{user}}</USUARIO>\r\n                <PASSWORD>{{pass}}</PASSWORD>\r\n            </ENTRADA>\r\n        </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n               <COMANDO>\r\n                  <CODIGO>LOGIN</CODIGO>\r\n                  <VERSION>1</VERSION>\r\n                  <TIPODUSO>VOID</TIPODUSO>\r\n               </COMANDO>\r\n               <ENTRADA>\r\n                  <USUARIO>{{user}}</USUARIO>\r\n                  <PASSWORD>{{pass}}</PASSWORD>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
 					"options": {
 						"raw": {
 							"language": "xml"
