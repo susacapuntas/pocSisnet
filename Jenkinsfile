@@ -7,9 +7,9 @@ pipeline {
 			description: "Job build selection")
 	}
     stages {
-		stage('AUTO_TEST_'${params.selectjob}){
+		stage("AUTO_TEST_${params.selectjob}"){
 			steps {
-				build job:'${params.selectjob}'
+				build job:"${params.selectjob}"
 			}
         }
     }
