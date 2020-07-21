@@ -7,7 +7,7 @@ pipeline {
 			description: "Job build selection")
 	}
     stages {
-		stage("AUTO_TEST_${params.selectjob}"){
+		stage('PoC_SISnet'){
 			steps {
 				build job:"${params.selectjob}"
 			}
