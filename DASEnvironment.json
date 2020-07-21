@@ -56,9 +56,24 @@
 			"key": "okCommand",
 			"value": "Comando invocado correctamente",
 			"enabled": true
+		},
+		{
+			"key": "sinister",
+			"value": "2019/69000175",
+			"enabled": true
+		},
+		{
+			"key": "numPolicy",
+			"value": "1001/19667584",
+			"enabled": true
+		},
+		{
+			"key": "numReceipt",
+			"value": "2018/15018317",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2020-07-10T10:46:28.163Z",
-	"_postman_exported_using": "Postman/7.27.1"
+	"_postman_exported_at": "2020-07-21T07:29:16.881Z",
+	"_postman_exported_using": "Postman/7.28.0"
 }

@@ -303,6 +303,575 @@
 					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
 				}
 			]
+		},
+		{
+			"name": "SN_INVOCCMD Command",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4327694d-9962-47cd-8209-bfe398dd9736",
+						"exec": [
+							"//Getting environment variables\r",
+							"var clientName = pm.environment.get(\"clientName\");\r",
+							"var okCommand = pm.environment.get(\"okCommand\");\r",
+							"\r",
+							"\r",
+							"var jsonObject = xml2Json(responseBody);\r",
+							"var jsonString = JSON.stringify(jsonObject);\r",
+							"\r",
+							"pm.test(\"Command is correctly invoked\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Client name is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(clientName);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>SN_INVOCCMD</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n               <COMANDO>\r\n                  <CODIGO>LOGIN</CODIGO>\r\n                  <VERSION>1</VERSION>\r\n                  <TIPODUSO>VOID</TIPODUSO>\r\n               </COMANDO>\r\n               <ENTRADA>\r\n                  <IDSESION>{{idSesion}}</IDSESION>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
+			"name": "SINIESTRO Command",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e6900d0-15e2-41a6-93f7-12a5f30f44a4",
+						"exec": [
+							"//Getting environment variables\r",
+							"var okCommand = pm.environment.get(\"okCommand\");\r",
+							"\r",
+							"var jsonObject = xml2Json(responseBody);\r",
+							"var jsonString = JSON.stringify(jsonObject);\r",
+							"\r",
+							"pm.test(\"Command is correctly invoked\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>SINIESTRO</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>SINIESTRO</CODIGO>\r\n               <VERSION>1</VERSION>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <NUMESINI>{{sinister}}</NUMESINI>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
+			"name": "POLIZA Command",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "337f4fd2-7ba1-4d59-b101-fd5f3d1f3c78",
+						"exec": [
+							"//Getting environment variables\r",
+							"var okCommand = pm.environment.get(\"okCommand\");\r",
+							"\r",
+							"var jsonObject = xml2Json(responseBody);\r",
+							"var jsonString = JSON.stringify(jsonObject);\r",
+							"\r",
+							"pm.test(\"Command is correctly invoked\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>POLIZA</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>POLIZA</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n               <ENTRADA>\r\n                  <NUMPOLIZ>{{numPolicy}}</NUMPOLIZ>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
+			"name": "RECIBO Command",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf3a9b0b-eec3-41be-8eff-866f2a8de21f",
+						"exec": [
+							"//Getting environment variables\r",
+							"var okCommand = pm.environment.get(\"okCommand\");\r",
+							"\r",
+							"var jsonObject = xml2Json(responseBody);\r",
+							"var jsonString = JSON.stringify(jsonObject);\r",
+							"\r",
+							"pm.test(\"Command is correctly invoked\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>RECIBO</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>RECIBO</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <NUMERECI>{{numReceipt}}</NUMERECI>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
 		}
 	],
 	"protocolProfileBehavior": {}
