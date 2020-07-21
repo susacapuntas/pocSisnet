@@ -1,9 +1,15 @@
 pipeline {
-    agent none 
+    agent none
+	parameters {
+		choice(
+			name: 'selectjob',
+			choices: "PoC_Sisnet_MdP\nPoC_Sisnet_DAS",
+			description: 'interesting stuff' )
+	}
     stages {
-		stage('AUTO_TEST_MdP'){
+		stage('AUTO_TEST_${params.selectjob}'){
 			steps {
-				build job:'PoC_Sisnet_MdP'
+				build job:'${params.selectjob}'
 			}
         }
     }
