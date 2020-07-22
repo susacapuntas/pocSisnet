@@ -54,17 +54,17 @@
 		},
 		{
 			"key": "sinister",
-			"value": "2020/04063096",
+			"value": "2017/4058035",
 			"enabled": true
 		},
 		{
 			"key": "numPolicy",
-			"value": "1947/250005101",
+			"value": "1978/250156834",
 			"enabled": true
 		},
 		{
 			"key": "numReceipt",
-			"value": "2019/526498304",
+			"value": "2020/543194301",
 			"enabled": true
 		},
 		{
@@ -76,9 +76,19 @@
 			"key": "accessProv",
 			"value": "",
 			"enabled": true
+		},
+		{
+			"key": "docuCountry",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "typeSini",
+			"value": "",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2020-07-21T12:35:41.562Z",
+	"_postman_exported_at": "2020-07-22T10:03:03.703Z",
 	"_postman_exported_using": "Postman/7.28.0"
 }

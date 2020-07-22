@@ -59,12 +59,12 @@
 		},
 		{
 			"key": "sinister",
-			"value": "2019/69000175",
+			"value": "2019/69000128",
 			"enabled": true
 		},
 		{
 			"key": "numPolicy",
-			"value": "1001/19667584",
+			"value": "2019/86323327",
 			"enabled": true
 		},
 		{
@@ -81,9 +81,34 @@
 			"key": "accessProv",
 			"value": "LARES",
 			"enabled": true
+		},
+		{
+			"key": "typeSini",
+			"value": "Asistencia en viaje",
+			"enabled": true
+		},
+		{
+			"key": "docuCountry",
+			"value": "ESPA",
+			"enabled": true
+		},
+		{
+			"key": "fromPolicy",
+			"value": "21/02/2019",
+			"enabled": true
+		},
+		{
+			"key": "toPolicy",
+			"value": "21/02/2020",
+			"enabled": true
+		},
+		{
+			"key": "ccc",
+			"value": "ES8415011148202776483513",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2020-07-21T12:35:30.014Z",
+	"_postman_exported_at": "2020-07-22T10:02:54.019Z",
 	"_postman_exported_using": "Postman/7.28.0"
 }

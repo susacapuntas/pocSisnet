@@ -463,6 +463,8 @@
 						"exec": [
 							"//Getting environment variables\r",
 							"var okCommand = pm.environment.get(\"okCommand\");\r",
+							"var typeSini = pm.environment.get(\"typeSini\");\r",
+							"var docuCountry = pm.environment.get(\"docuCountry\");\r",
 							"\r",
 							"var jsonObject = xml2Json(responseBody);\r",
 							"var jsonString = JSON.stringify(jsonObject);\r",
@@ -470,7 +472,14 @@
 							"pm.test(\"Command is correctly invoked\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
 							"});\r",
-							""
+							"\r",
+							"pm.test(\"Sinister type is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(typeSini);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Country doc is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(docuCountry);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -604,6 +613,9 @@
 						"exec": [
 							"//Getting environment variables\r",
 							"var okCommand = pm.environment.get(\"okCommand\");\r",
+							"var fromPolicy = pm.environment.get(\"fromPolicy\");\r",
+							"var toPolicy = pm.environment.get(\"toPolicy\");\r",
+							"var ccc = pm.environment.get(\"ccc\");\r",
 							"\r",
 							"var jsonObject = xml2Json(responseBody);\r",
 							"var jsonString = JSON.stringify(jsonObject);\r",
@@ -611,7 +623,18 @@
 							"pm.test(\"Command is correctly invoked\", function () {\r",
 							"    pm.expect(pm.response.text()).to.include(okCommand);\r",
 							"});\r",
-							""
+							"\r",
+							"pm.test(\"Policy start is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(fromPolicy);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Policy end is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(toPolicy);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"CCC is correct\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(ccc);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
