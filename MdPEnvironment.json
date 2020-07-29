@@ -1,5 +1,5 @@
 {
-	"id": "bfa5a7df-c48a-4472-95b8-23e2073a7939",
+	"id": "ddb7682f-5054-40f3-a70d-69b7af0f73a0",
 	"name": "Sisnet MdP",
 	"values": [
 		{
@@ -19,12 +19,12 @@
 		},
 		{
 			"key": "user",
-			"value": "agomez",
+			"value": "admin_total",
 			"enabled": true
 		},
 		{
 			"key": "pass",
-			"value": "mutuaabc",
+			"value": "mutuaadmin",
 			"enabled": true
 		},
 		{
@@ -43,28 +43,33 @@
 			"enabled": true
 		},
 		{
+			"key": "email",
+			"value": "silviatost@gmail.com",
+			"enabled": true
+		},
+		{
 			"key": "clientName",
 			"value": "SUSANA",
 			"enabled": true
 		},
 		{
 			"key": "okCommand",
-			"value": "Comando invocado correctamente",
+			"value": "Comando invocado correctamente.",
 			"enabled": true
 		},
 		{
 			"key": "sinister",
-			"value": "2017/4058035",
+			"value": "2020/04065367",
 			"enabled": true
 		},
 		{
 			"key": "numPolicy",
-			"value": "1978/250156834",
+			"value": "1964/250115339",
 			"enabled": true
 		},
 		{
 			"key": "numReceipt",
-			"value": "2020/543194301",
+			"value": "2019/320175704",
 			"enabled": true
 		},
 		{
@@ -78,17 +83,432 @@
 			"enabled": true
 		},
 		{
+			"key": "typeSini",
+			"value": "Asistencia en viaje",
+			"enabled": true
+		},
+		{
 			"key": "docuCountry",
+			"value": "ESPA",
+			"enabled": true
+		},
+		{
+			"key": "fromPolicy",
+			"value": "21/02/2019",
+			"enabled": true
+		},
+		{
+			"key": "toPolicy",
+			"value": "21/02/2020",
+			"enabled": true
+		},
+		{
+			"key": "cccPolicy",
+			"value": "ES8415011148202776483513",
+			"enabled": true
+		},
+		{
+			"key": "efectPolicy",
+			"value": "21/02/2019",
+			"enabled": true
+		},
+		{
+			"key": "numSini",
+			"value": "AS05 2019/69000128",
+			"enabled": true
+		},
+		{
+			"key": "ocurrenceDate",
+			"value": "12/03/2019",
+			"enabled": true
+		},
+		{
+			"key": "ocurrenceHour",
+			"value": "00:00:00",
+			"enabled": true
+		},
+		{
+			"key": "ocurrenceCountry",
+			"value": "ESPA&#209;A",
+			"enabled": true
+		},
+		{
+			"key": "closing",
 			"value": "",
 			"enabled": true
 		},
 		{
-			"key": "typeSini",
+			"key": "closingDate",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "tramitator",
+			"value": "S&#237;lvia Gonz&#225;lez",
+			"enabled": true
+		},
+		{
+			"key": "typeFigure",
+			"value": "ASE",
+			"enabled": true
+		},
+		{
+			"key": "figureName",
+			"value": "NQUIRE NQIZPEFUATIZ ENISSUVA NQUIRE NQIZPEFUATIZ QIH",
+			"enabled": true
+		},
+		{
+			"key": "figurePhone",
+			"value": "+34 937466180",
+			"enabled": true
+		},
+		{
+			"key": "fax",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "reference",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "ampliation",
+			"value": "ASEG",
+			"enabled": true
+		},
+		{
+			"key": "identificator",
+			"value": "0",
+			"enabled": true
+		},
+		{
+			"key": "sinisterOffice",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "reclamationPayment",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "toPay",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "policyNumber",
+			"value": "AS05 2019/86323327",
+			"enabled": true
+		},
+		{
+			"key": "policyStatus",
+			"value": "V",
+			"enabled": true
+		},
+		{
+			"key": "mediatorName",
+			"value": "ESIJ SETZEF",
+			"enabled": true
+		},
+		{
+			"key": "suplementDate",
+			"value": "23/09/2019",
+			"enabled": true
+		},
+		{
+			"key": "suplementType",
+			"value": "SUPL",
+			"enabled": true
+		},
+		{
+			"key": "policyPaymentMethod",
+			"value": "BANC",
+			"enabled": true
+		},
+		{
+			"key": "netPolicyPayment",
+			"value": "6859.892",
+			"enabled": true
+		},
+		{
+			"key": "totalPolicyPayment",
+			"value": "7281.7753",
+			"enabled": true
+		},
+		{
+			"key": "policyTaxes",
+			"value": "421.8833000000004",
+			"enabled": true
+		},
+		{
+			"key": "policyTakerName",
+			"value": "ROGER MARTINEZ REY",
+			"enabled": true
+		},
+		{
+			"key": "policyAddress",
+			"value": "Calle ARAGO, 390",
+			"enabled": true
+		},
+		{
+			"key": "policyPostalCode",
+			"value": "08013",
+			"enabled": true
+		},
+		{
+			"key": "policyPoblation",
+			"value": "08019000000",
+			"enabled": true
+		},
+		{
+			"key": "policyProductCode",
+			"value": "AS05",
+			"enabled": true
+		},
+		{
+			"key": "policyProductDescription",
+			"value": "DAS Asistencia en Carretera",
+			"enabled": true
+		},
+		{
+			"key": "combiCode",
+			"value": "AS0501",
+			"enabled": true
+		},
+		{
+			"key": "combiDescription",
+			"value": "Turismos,  furgonetas y caravanas Nacional",
+			"enabled": true
+		},
+		{
+			"key": "riskNumber1",
+			"value": "1",
+			"enabled": true
+		},
+		{
+			"key": "riskType",
+			"value": "VEHICULO",
+			"enabled": true
+		},
+		{
+			"key": "riskDescription",
+			"value": "4544HGF",
+			"enabled": true
+		},
+		{
+			"key": "riskID",
+			"value": "736417",
+			"enabled": true
+		},
+		{
+			"key": "covCode",
+			"value": "AV07",
+			"enabled": true
+		},
+		{
+			"key": "covDescription",
+			"value": "Reparaci&#243;n de urgencia en carretera",
+			"enabled": true
+		},
+		{
+			"key": "capital",
+			"value": "1",
+			"enabled": true
+		},
+		{
+			"key": "capitalDescription",
+			"value": "Servicio DAS",
+			"enabled": true
+		},
+		{
+			"key": "coverageLimit",
+			"value": "0",
+			"enabled": true
+		},
+		{
+			"key": "clauseCode",
+			"value": "700.002",
+			"enabled": true
+		},
+		{
+			"key": "clauseDescription",
+			"value": "Con la firma que figura al pie de estas Condiciones Particulares, el Tomador del seguro reconoce haber recibido las Condiciones Generales, y reconoce asimismo haber le&#237;do y aceptado las cl&#225;usulas incluidas en el mismo.",
+			"enabled": true
+		},
+		{
+			"key": "policyCharge",
+			"value": "ANUA",
+			"enabled": true
+		},
+		{
+			"key": "typeReceipt",
+			"value": "R",
+			"enabled": true
+		},
+		{
+			"key": "receiptEfect",
+			"value": "17/07/2019",
+			"enabled": true
+		},
+		{
+			"key": "endReceipt",
+			"value": "17/08/2019",
+			"enabled": true
+		},
+		{
+			"key": "receiptEmision",
+			"value": "17/07/2019",
+			"enabled": true
+		},
+		{
+			"key": "netReceipt",
+			"value": "23.71",
+			"enabled": true
+		},
+		{
+			"key": "receiptTaxes",
+			"value": "3.4299999999999997",
+			"enabled": true
+		},
+		{
+			"key": "totalReceipt",
+			"value": "27.14",
+			"enabled": true
+		},
+		{
+			"key": "receiptComission",
+			"value": "5.9272",
+			"enabled": true
+		},
+		{
+			"key": "receiptIRPF",
+			"value": "0",
+			"enabled": true
+		},
+		{
+			"key": "liquidComissionReceipt",
+			"value": "21.21",
+			"enabled": true
+		},
+		{
+			"key": "liquidCIAReceipt",
+			"value": "21.21",
+			"enabled": true
+		},
+		{
+			"key": "swCartera",
+			"value": "S",
+			"enabled": true
+		},
+		{
+			"key": "canalReceipt",
+			"value": "MEDI",
+			"enabled": true
+		},
+		{
+			"key": "receiptPaymentMethod",
+			"value": "BANC",
+			"enabled": true
+		},
+		{
+			"key": "receiptState",
+			"value": "PDTE",
+			"enabled": true
+		},
+		{
+			"key": "receiptTaker",
+			"value": "ESUTE SUFE ",
+			"enabled": true
+		},
+		{
+			"key": "receiptProduct",
+			"value": "PP09",
+			"enabled": true
+		},
+		{
+			"key": "netPolicyReceipt",
+			"value": "284.5075",
+			"enabled": true
+		},
+		{
+			"key": "commissionPolicyReceipt",
+			"value": "71.1263",
+			"enabled": true
+		},
+		{
+			"key": "riskReceipt",
+			"value": "INMUEBLE",
+			"enabled": true
+		},
+		{
+			"key": "riskDescriptionReceipt",
+			"value": "Paseo Maragall1 1",
+			"enabled": true
+		},
+		{
+			"key": "receiptPolicy",
+			"value": "PP09 2016/86213915",
+			"enabled": true
+		},
+		{
+			"key": "clientLastName1",
+			"value": "AGUAYO",
+			"enabled": true
+		},
+		{
+			"key": "clientLastName2",
+			"value": "HERRANZ",
+			"enabled": true
+		},
+		{
+			"key": "clientID",
+			"value": "4795605",
+			"enabled": true
+		},
+		{
+			"key": "clientBirthDate",
+			"value": "01/01/1900",
+			"enabled": true
+		},
+		{
+			"key": "clientCivilStatus",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "clientCountryCode",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "clientLanguage",
+			"value": "ESPA",
+			"enabled": true
+		},
+		{
+			"key": "clientProfCode",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "clientNameData",
+			"value": "SWDOCCOB",
+			"enabled": true
+		},
+		{
+			"key": "clientValue",
+			"value": "N",
+			"enabled": true
+		},
+		{
+			"key": "clientSex",
 			"value": "",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2020-07-22T10:03:03.703Z",
-	"_postman_exported_using": "Postman/7.28.0"
+	"_postman_exported_at": "2020-07-29T10:57:28.281Z",
+	"_postman_exported_using": "Postman/7.29.1"
 }
