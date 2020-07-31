@@ -1,5 +1,5 @@
 {
-	"id": "0ac6b15e-c739-4b30-a65a-3fb75c9131f5",
+	"id": "27b7eb83-1918-4c7e-acb8-d26c0a0624ca",
 	"name": "Sisnet DAS",
 	"values": [
 		{
@@ -486,9 +486,64 @@
 			"key": "policyEfec",
 			"value": "21/02/2019",
 			"enabled": true
+		},
+		{
+			"key": "clientLastName1",
+			"value": "AGUAYO",
+			"enabled": true
+		},
+		{
+			"key": "clientLastName2",
+			"value": "HERRANZ",
+			"enabled": true
+		},
+		{
+			"key": "clientID",
+			"value": "4795605",
+			"enabled": true
+		},
+		{
+			"key": "clientBirthDate",
+			"value": "01/01/1900",
+			"enabled": true
+		},
+		{
+			"key": "clientCivilStatus",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "clientCountryCode",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "clientLanguage",
+			"value": "ESPA",
+			"enabled": true
+		},
+		{
+			"key": "clientProfCode",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "clientNameData",
+			"value": "SWDOCCOB",
+			"enabled": true
+		},
+		{
+			"key": "clientValue",
+			"value": "N",
+			"enabled": true
+		},
+		{
+			"key": "clientSex",
+			"value": "",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2020-07-29T10:57:19.427Z",
+	"_postman_exported_at": "2020-07-31T07:28:56.644Z",
 	"_postman_exported_using": "Postman/7.29.1"
 }

@@ -166,6 +166,525 @@
 			]
 		},
 		{
+			"name": "LOGIN Command - KO user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "45e59ed1-834b-4945-86fd-e09524ffc36e",
+						"exec": [
+							"const xml2js = require('xml2js');\r",
+							"const response = pm.response.text();\r",
+							"const $ = cheerio.load(response);\r",
+							"const xmlPayload = $('return').text();\r",
+							"let returnCode, returnDescription, returnException, returnComment;\r",
+							"\r",
+							"//Parse response\r",
+							"xml2js.parseString(xmlPayload, (_, res) => {\r",
+							"    returnCode = JSON.stringify(res.ROOT.RETORNO[0].CODIGO[0]).replace(/\\\"/g, \"\");\r",
+							"    returnDescription = JSON.stringify(res.ROOT.RETORNO[0].DESCRIPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnException = JSON.stringify(res.ROOT.RETORNO[0].EXCEPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnComment = JSON.stringify(res.ROOT.RETORNO[0].COMENTARIO[0]).replace(/\\\"/g, \"\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Code is 1\", function () {\r",
+							"    pm.expect(returnCode).to.eql('1');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Exception is: LG01\", function () {\r",
+							"    pm.expect(returnException).to.eql('LG01');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Comment is: Incorrect identification\", function () {\r",
+							"    pm.expect(returnComment).to.eql('Identificación incorrecta');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Description is: System exception\", function () {\r",
+							"    pm.expect(returnDescription).to.eql('Excepción de sistema. Ejecución de comando incompleto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Command is NOT correctly invoked\", function () {\r",
+							"    pm.expect(response).to.not.include(pm.environment.get(\"okCommand\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n               <COMANDO>\r\n                  <CODIGO>LOGIN</CODIGO>\r\n                  <VERSION>1</VERSION>\r\n                  <TIPODUSO>VOID</TIPODUSO>\r\n               </COMANDO>\r\n               <ENTRADA>\r\n                  <USUARIO></USUARIO>\r\n                  <CONTRASEÑA>{{pass}}</CONTRASEÑA>\r\n                  <CODIMEDI>{{codMediator}}</CODIMEDI>\r\n                  <PROVACCE>{{accessProv}}</PROVACCE>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "LOGIN Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n                <CODIGO>LOGIN</CODIGO>\r\n                <VERSION>1</VERSION>\r\n                <TIPODUSO>VOID</TIPODUSO>\r\n            </COMANDO>\r\n            <ENTRADA>\r\n                <USUARIO>rdferreira</USUARIO>\r\n                <PASSWORD>123456</PASSWORD>\r\n            </ENTRADA>\r\n        </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:20:15 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;IDSESION>WSSISnetesbarint01U212I195715ef08635d5145b994e3031b513178&lt;/IDSESION>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
+			"name": "LOGIN Command - KO codmediator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "93346c6c-0be1-4b33-83b9-70fb04b4346e",
+						"exec": [
+							"const xml2js = require('xml2js');\r",
+							"const response = pm.response.text();\r",
+							"const $ = cheerio.load(response);\r",
+							"const xmlPayload = $('return').text();\r",
+							"let returnCode, returnDescription, returnException, returnComment;\r",
+							"\r",
+							"//Parse response\r",
+							"xml2js.parseString(xmlPayload, (_, res) => {\r",
+							"    returnCode = JSON.stringify(res.ROOT.RETORNO[0].CODIGO[0]).replace(/\\\"/g, \"\");\r",
+							"    returnDescription = JSON.stringify(res.ROOT.RETORNO[0].DESCRIPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnException = JSON.stringify(res.ROOT.RETORNO[0].EXCEPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnComment = JSON.stringify(res.ROOT.RETORNO[0].COMENTARIO[0]).replace(/\\\"/g, \"\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Code is 1\", function () {\r",
+							"    pm.expect(returnCode).to.eql('1');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Exception is: LG01\", function () {\r",
+							"    pm.expect(returnException).to.eql('LG03');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Comment is: Incorrect mediator code\", function () {\r",
+							"    pm.expect(returnComment).to.eql('Código de mediador incorrecto');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Description is: System exception\", function () {\r",
+							"    pm.expect(returnDescription).to.eql('Excepción de sistema. Ejecución de comando incompleto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Command is NOT correctly invoked\", function () {\r",
+							"    pm.expect(response).to.not.include(pm.environment.get(\"okCommand\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n               <COMANDO>\r\n                  <CODIGO>LOGIN</CODIGO>\r\n                  <VERSION>1</VERSION>\r\n                  <TIPODUSO>VOID</TIPODUSO>\r\n               </COMANDO>\r\n               <ENTRADA>\r\n                  <USUARIO>{{user}}</USUARIO>\r\n                  <CONTRASEÑA>{{pass}}</CONTRASEÑA>\r\n                  <CODIMEDI></CODIMEDI>\r\n                  <PROVACCE>{{accessProv}}</PROVACCE>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "LOGIN Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n                <CODIGO>LOGIN</CODIGO>\r\n                <VERSION>1</VERSION>\r\n                <TIPODUSO>VOID</TIPODUSO>\r\n            </COMANDO>\r\n            <ENTRADA>\r\n                <USUARIO>rdferreira</USUARIO>\r\n                <PASSWORD>123456</PASSWORD>\r\n            </ENTRADA>\r\n        </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:20:15 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;IDSESION>WSSISnetesbarint01U212I195715ef08635d5145b994e3031b513178&lt;/IDSESION>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
+			"name": "LOGIN Command - KO accessprov",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b971f42e-1f95-4591-a82a-bddc6e44f3b6",
+						"exec": [
+							"const xml2js = require('xml2js');\r",
+							"const response = pm.response.text();\r",
+							"const $ = cheerio.load(response);\r",
+							"const xmlPayload = $('return').text();\r",
+							"let returnCode, returnDescription, returnException, returnComment;\r",
+							"\r",
+							"//Parse response\r",
+							"xml2js.parseString(xmlPayload, (_, res) => {\r",
+							"    returnCode = JSON.stringify(res.ROOT.RETORNO[0].CODIGO[0]).replace(/\\\"/g, \"\");\r",
+							"    returnDescription = JSON.stringify(res.ROOT.RETORNO[0].DESCRIPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnException = JSON.stringify(res.ROOT.RETORNO[0].EXCEPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnComment = JSON.stringify(res.ROOT.RETORNO[0].COMENTARIO[0]).replace(/\\\"/g, \"\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Code is 1\", function () {\r",
+							"    pm.expect(returnCode).to.eql('1');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Exception is: LG01\", function () {\r",
+							"    pm.expect(returnException).to.eql('LG02');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Comment is: Incorrect access prov.\", function () {\r",
+							"    pm.expect(returnComment).to.eql('Código de proveedor de acceso incorrecto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Description is: System exception\", function () {\r",
+							"    pm.expect(returnDescription).to.eql('Excepción de sistema. Ejecución de comando incompleto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Command is NOT correctly invoked\", function () {\r",
+							"    pm.expect(response).to.not.include(pm.environment.get(\"okCommand\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n               <COMANDO>\r\n                  <CODIGO>LOGIN</CODIGO>\r\n                  <VERSION>1</VERSION>\r\n                  <TIPODUSO>VOID</TIPODUSO>\r\n               </COMANDO>\r\n               <ENTRADA>\r\n                  <USUARIO>{{user}}</USUARIO>\r\n                  <CONTRASEÑA>{{pass}}</CONTRASEÑA>\r\n                  <CODIMEDI>{{codMediator}}</CODIMEDI>\r\n                  <PROVACCE></PROVACCE>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "LOGIN Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>LOGIN</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n                <CODIGO>LOGIN</CODIGO>\r\n                <VERSION>1</VERSION>\r\n                <TIPODUSO>VOID</TIPODUSO>\r\n            </COMANDO>\r\n            <ENTRADA>\r\n                <USUARIO>rdferreira</USUARIO>\r\n                <PASSWORD>123456</PASSWORD>\r\n            </ENTRADA>\r\n        </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:20:15 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;IDSESION>WSSISnetesbarint01U212I195715ef08635d5145b994e3031b513178&lt;/IDSESION>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
 			"name": "SN_CONSCLIE Command",
 			"event": [
 				{
@@ -820,6 +1339,185 @@
 			]
 		},
 		{
+			"name": "SINIESTRO Command - KO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b0e101a-503d-477e-9180-b65449b6a732",
+						"exec": [
+							"const xml2js = require('xml2js');\r",
+							"const response = pm.response.text();\r",
+							"const $ = cheerio.load(response);\r",
+							"const xmlPayload = $('return').text();\r",
+							"let returnCode, returnDescription, returnException, returnComment;\r",
+							"\r",
+							"//Parse response\r",
+							"xml2js.parseString(xmlPayload, (_, res) => {\r",
+							"    returnCode = JSON.stringify(res.ROOT.RETORNO[0].CODIGO[0]).replace(/\\\"/g, \"\");\r",
+							"    returnDescription = JSON.stringify(res.ROOT.RETORNO[0].DESCRIPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnException = JSON.stringify(res.ROOT.RETORNO[0].EXCEPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnComment = JSON.stringify(res.ROOT.RETORNO[0].COMENTARIO[0]).replace(/\\\"/g, \"\");\r",
+							"});\r",
+							"\r",
+							"/************* FUNCTIONS*****************/\r",
+							"\r",
+							"    function returnFunction(){\r",
+							"        console.log(returnComment+\" - \"+ returnDescription+\" - \"+returnException);\r",
+							"    }\r",
+							"\r",
+							"/***************************************/\r",
+							"\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Code is 1\", function () {\r",
+							"    pm.expect(returnCode).to.eql('1');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Exception is: MENSASIS\", function () {\r",
+							"    pm.expect(returnException).to.eql('MENSASIS');\r",
+							"});\r",
+							"\r",
+							"//NOTA: el mensaje tiene una errata 'nigún'\r",
+							"pm.test(\"Comment is: Sinister doesnt exist\", function () {\r",
+							"    pm.expect(returnComment).to.eql('No existe nigún siniestro con el número indicado.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Description is: System exception\", function () {\r",
+							"    pm.expect(returnDescription).to.eql('Excepción de sistema. Ejecución de comando incompleto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Command is NOT correctly invoked\", function () {\r",
+							"    pm.expect(response).to.not.include(pm.environment.get(\"okCommand\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>SINIESTRO</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>SINIESTRO</CODIGO>\r\n               <VERSION>1</VERSION>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <NUMESINI></NUMESINI>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
 			"name": "POLIZA Command",
 			"event": [
 				{
@@ -1178,6 +1876,201 @@
 			]
 		},
 		{
+			"name": "POLIZA Command - KO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "254eeec4-4797-45de-b42c-b3d64d499eaa",
+						"exec": [
+							"//Response 200\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"const xml2js = require('xml2js');\r",
+							"const response = pm.response.text();\r",
+							"const $ = cheerio.load(response);\r",
+							"const xmlPayload = $('return').text();\r",
+							"let returnCode, returnDescription, returnException, returnComment;\r",
+							"\r",
+							"//Parse response\r",
+							"xml2js.parseString(xmlPayload, (_, res) => {\r",
+							"    returnCode = JSON.stringify(res.ROOT.RETORNO[0].CODIGO[0]).replace(/\\\"/g, \"\");\r",
+							"    returnDescription = JSON.stringify(res.ROOT.RETORNO[0].DESCRIPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnException = JSON.stringify(res.ROOT.RETORNO[0].EXCEPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnComment = JSON.stringify(res.ROOT.RETORNO[0].COMENTARIO[0]).replace(/\\\"/g, \"\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							"/************* FUNCTIONS*****************/\r",
+							"\r",
+							"    function returnFunction(){\r",
+							"        console.log(returnComment+\" - \"+ returnDescription+\" - \"+returnException);\r",
+							"    }\r",
+							"\r",
+							"/***************************************/\r",
+							"\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Code is 1\", function () {\r",
+							"    pm.expect(returnCode).to.eql('1');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Exception is: MENSASIS\", function () {\r",
+							"    pm.expect(returnException).to.eql('MENSASIS');\r",
+							"});\r",
+							"\r",
+							"//NOTA: el mensaje tiene una errata 'niguna'\r",
+							"pm.test(\"Comment is: Policy doesnt exist\", function () {\r",
+							"    pm.expect(returnComment).to.eql('No existe niguna póliza con el número indicado.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Description is: System exception\", function () {\r",
+							"    pm.expect(returnDescription).to.eql('Excepción de sistema. Ejecución de comando incompleto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Command is NOT correctly invoked\", function () {\r",
+							"    pm.expect(response).to.not.include(pm.environment.get(\"okCommand\"));\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5f84ab13-49e4-450c-9a8a-d7a85ae4f852",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>POLIZA</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>POLIZA</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n               <ENTRADA>\r\n                  <NUMPOLIZ></NUMPOLIZ>\r\n               </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
 			"name": "RECIBO Command",
 			"event": [
 				{
@@ -1356,6 +2249,189 @@
 				"body": {
 					"mode": "raw",
 					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>RECIBO</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>RECIBO</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <NUMERECI>{{numReceipt}}</NUMERECI>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/{{resource}}/WSSISNet?wsdl",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{resource}}",
+						"WSSISNet"
+					],
+					"query": [
+						{
+							"key": "wsdl",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "CONSDATOSCLI Command",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>CONSDATOSCLI</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>CONSDATOSCLI</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>WSSISnetesbarint01U212I182362168ddb41fc24b09524eb31714463</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <ID_PERSONA/>\r\n               <NUMEDOCU>43397684L</NUMEDOCU>\r\n               <TIPODOCU>NIF</TIPODOCU>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://esbarint01.esbar.dasnet:8080/SisnetINT/WSSISNet?wsdl",
+							"protocol": "http",
+							"host": [
+								"esbarint01",
+								"esbar",
+								"dasnet"
+							],
+							"port": "8080",
+							"path": [
+								"SisnetINT",
+								"WSSISNet"
+							],
+							"query": [
+								{
+									"key": "wsdl",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "xml",
+					"header": [
+						{
+							"key": "Cache-control",
+							"value": "no-cache, must-revalidate, no-store"
+						},
+						{
+							"key": "Expires",
+							"value": "-1"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "X-UA-Compatible",
+							"value": "IE=Edge"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/xml;charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 07 Jul 2020 12:18:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "<?xml version='1.0' encoding='UTF-8'?>\n<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <SOAP-ENV:Header/>\n    <S:Body>\n        <ns2:executeResponse xmlns:ns2=\"urn:sisnet.framework.webservices.jaxws\">\n            <return>&lt;?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n&lt;ROOT>\n&lt;RETORNO>\n&lt;CODIGO>0&lt;/CODIGO>\n&lt;DESCRIPCION>Comando invocado correctamente.&lt;/DESCRIPCION>\n&lt;EXCEPCION>&lt;/EXCEPCION>\n&lt;COMENTARIO>&lt;/COMENTARIO>\n&lt;AVISOS>\n&lt;/AVISOS>\n\n&lt;/RETORNO>\n&lt;RESPUESTA>\n&lt;CLIENTE>\n&lt;ID_DPERSONA>190753&lt;/ID_DPERSONA>\n&lt;NOMBRE>FIQ&amp;#209;ISSA &amp;#209;USE,CAET&lt;/NOMBRE>\n&lt;APELLIDO1>&lt;/APELLIDO1>\n&lt;APELLIDO2>&lt;/APELLIDO2>\n&lt;TIPODOC>NIF&lt;/TIPODOC>\n&lt;NACIMIENTO>&lt;/NACIMIENTO>\n&lt;NUMERODOC>43397684L&lt;/NUMERODOC>\n&lt;ID_DPEDOMI>246747&lt;/ID_DPEDOMI>\n&lt;PROVINCIA>08&lt;/PROVINCIA>\n&lt;CP>08041&lt;/CP>\n&lt;POBLACION>BARCELONA&lt;/POBLACION>\n&lt;DESPOBLACION>&lt;/DESPOBLACION>\n&lt;TIPOVIA>&lt;/TIPOVIA>\n&lt;DOMICILIO>C. XIPRER 4-6 2.3.&lt;/DOMICILIO>\n&lt;NUMERO>&lt;/NUMERO>\n&lt;PORTAL>&lt;/PORTAL>\n&lt;ESCALERA>&lt;/ESCALERA>\n&lt;PISO>&lt;/PISO>\n&lt;PUERTA>&lt;/PUERTA>\n&lt;DATOS_CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194194&lt;/ID_DPEDCONT>\n&lt;TIPO>EMAIL&lt;/TIPO>\n&lt;DATO>silviatost@gmail.com&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;CONTACTO>\n&lt;ID_DPEDCONT>194193&lt;/ID_DPEDCONT>\n&lt;TIPO>TELEFONO&lt;/TIPO>\n&lt;DATO>+34 934569897&lt;/DATO>\n&lt;PRIORIDAD>0&lt;/PRIORIDAD>\n&lt;CANAL_NOTIFICACIONES>&lt;/CANAL_NOTIFICACIONES>\n&lt;/CONTACTO>\n&lt;/DATOS_CONTACTO>\n&lt;/CLIENTE>\n\n&lt;/RESPUESTA>\n&lt;/ROOT></return>\n        </ns2:executeResponse>\n    </S:Body>\n</S:Envelope>"
+				}
+			]
+		},
+		{
+			"name": "RECIBO Command - KO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03abb40c-e0d6-49d0-8bc5-47896419f180",
+						"exec": [
+							"//Response 200\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"const xml2js = require('xml2js');\r",
+							"const response = pm.response.text();\r",
+							"const $ = cheerio.load(response);\r",
+							"const xmlPayload = $('return').text();\r",
+							"let returnCode, returnDescription, returnException, returnComment;\r",
+							"\r",
+							"//Parse response\r",
+							"xml2js.parseString(xmlPayload, (_, res) => {\r",
+							"    returnCode = JSON.stringify(res.ROOT.RETORNO[0].CODIGO[0]).replace(/\\\"/g, \"\");\r",
+							"    returnDescription = JSON.stringify(res.ROOT.RETORNO[0].DESCRIPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnException = JSON.stringify(res.ROOT.RETORNO[0].EXCEPCION[0]).replace(/\\\"/g, \"\");\r",
+							"    returnComment = JSON.stringify(res.ROOT.RETORNO[0].COMENTARIO[0]).replace(/\\\"/g, \"\");\r",
+							"\r",
+							"});\r",
+							"\r",
+							"/************* FUNCTIONS*****************/\r",
+							"\r",
+							"    function returnFunction(){\r",
+							"        console.log(returnComment+\" - \"+ returnDescription+\" - \"+returnException);\r",
+							"    }\r",
+							"\r",
+							"/***************************************/\r",
+							"\r",
+							"pm.test(\"Response is 200\", function () {\r",
+							"    pm.response.to.be.ok;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Code is 1\", function () {\r",
+							"    pm.expect(returnCode).to.eql('1');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Exception is: MENSASIS\", function () {\r",
+							"    pm.expect(returnException).to.eql('MENSASIS');\r",
+							"});\r",
+							"\r",
+							"//NOTA: el mensaje tiene una errata 'nigún'\r",
+							"pm.test(\"Comment is: Incorrect receipt\", function () {\r",
+							"    pm.expect(returnComment).to.eql('No existe nigún recibo con el número indicado.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Description is: System exception\", function () {\r",
+							"    pm.expect(returnDescription).to.eql('Excepción de sistema. Ejecución de comando incompleto.');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Command is NOT correctly invoked\", function () {\r",
+							"    pm.expect(response).to.not.include(pm.environment.get(\"okCommand\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "text/xml; charset=utf-8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sisnet.framework.webservices.jaxws\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:execute>\r\n         <!--Optional:-->\r\n         <arg0>RECIBO</arg0>\r\n         <!--Optional:-->\r\n         <arg1>\r\n         <![CDATA[\r\n            <ROOT>\r\n            <COMANDO>\r\n               <CODIGO>RECIBO</CODIGO>\r\n               <TIPODUSO>VOID</TIPODUSO>\r\n               <VERSION>1</VERSION>\r\n            </COMANDO>\r\n            <SESION>\r\n               <IDSESION>{{idSesion}}</IDSESION>\r\n            </SESION>\r\n            <ENTRADA>\r\n               <NUMERECI></NUMERECI>\r\n            </ENTRADA>\r\n            </ROOT>\r\n        ]]>\r\n         </arg1>\r\n      </urn:execute>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
 					"options": {
 						"raw": {
 							"language": "xml"
